@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Slime Soccer",
+    "slug": "slime-soccer",
+    "version": "1.0.0",
+    "orientation": "landscape",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#111827"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourcompany.slimesoccer",
+      "requireFullScreen": true,
+      "infoPlist": {
+        "UIRequiresFullScreen": true,
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.yourcompany.slimesoccer",
+      "screenOrientation": "landscape",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#111827"
+      }
+    },
+    "plugins": [
+      "expo-screen-orientation",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#111827"
+        }
+      ]
+    ]
+  }
+}
