@@ -9,6 +9,9 @@ build/
 *.mobileprovision
 *.orig.*
 web-build/
+ios/
+android/
+app/
 .env
 .env.local
 google-service-account.json
