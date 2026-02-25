@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler'; // Must be first import
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Platform, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -25,10 +26,35 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+  const [skiaReady, setSkiaReady] = useState(Platform.OS !== 'web');
+
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
     SplashScreen.hideAsync();
   }, []);
+
+  // Load CanvasKit WASM for web (served from CDN since Metro can't serve .wasm)
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      import('@shopify/react-native-skia/lib/module/web')
+        .then(({ LoadSkiaWeb }) =>
+          LoadSkiaWeb({
+            locateFile: (file: string) =>
+              `https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.40.0/bin/full/${file}`,
+          })
+        )
+        .then(() => setSkiaReady(true))
+        .catch((e) => console.warn('Skia web load failed:', e));
+    }
+  }, []);
+
+  if (!skiaReady) {
+    return (
+      <View style={{ flex: 1, backgroundColor: '#111827', justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: '#fff', fontSize: 18 }}>Loading game engine...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaProvider>
